@@ -1,6 +1,29 @@
-# OrangeTerm
+# OrangeTerm / 橙子终端
+
+<div align="center">
+  <p>
+    <strong>A fully AI-driven desktop client for autonomous operations</strong>
+  </p>
+  <p>
+    <strong>完全由 AI 驱动的自主运维桌面客户端</strong>
+  </p>
+  <p>
+    <img src="https://img.shields.io/badge/语言-中文%20%7C%20English-orange" alt="Language">
+    <img src="https://img.shields.io/badge/Electron-28.0-orange" alt="Electron">
+    <img src="https://img.shields.io/badge/React-18.2-orange" alt="React">
+    <img src="https://img.shields.io/badge/TypeScript-5.3-orange" alt="TypeScript">
+  </p>
+</div>
 
 A fully AI-driven desktop client for autonomous operations, featuring automated decision-making and execution to achieve completely unmanned intelligent Ops management.
+
+## 🌟 New Features
+
+- 🌏 **Full Chinese Support** - Complete Chinese UI and documentation ([中文文档](README_CN.md))
+- 🖥️ **Multi-Server Management** - Add and manage multiple servers with ease
+- 🔍 **Auto-Detect Configuration** - Automatically detect CPU, memory, disk, and OS information
+- 🎨 **Beautiful Orange Theme** - Stunning orange gradient design throughout the UI
+- 🌐 **Language Switching** - Switch between Chinese and English instantly
 
 ## Features
 
@@ -74,6 +97,13 @@ Package the application:
 ```bash
 npm run package
 ```
+
+This will create:
+- **Linux**: `release/OrangeTerm-1.0.0.AppImage` (✅ Built successfully)
+- **Windows**: See [BUILD_GUIDE.md](BUILD_GUIDE.md) for instructions
+- **macOS**: Requires building on macOS system
+
+For detailed build instructions, see [BUILD_GUIDE.md](BUILD_GUIDE.md).
 
 The packaged application will be available in the `release/` directory.
 

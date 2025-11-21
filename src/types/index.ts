@@ -42,6 +42,38 @@ export interface MCPServerConfig {
   env?: Record<string, string>;
 }
 
+export interface ServerConfig {
+  id: string;
+  name: string;
+  host: string;
+  port: number;
+  username: string;
+  password: string;
+  status?: 'connected' | 'disconnected' | 'error';
+  systemInfo?: ServerSystemInfo;
+}
+
+export interface ServerSystemInfo {
+  cpu: string;
+  cpuCores: number;
+  memory: {
+    total: string;
+    used: string;
+    free: string;
+    percentage: number;
+  };
+  disk: {
+    total: string;
+    used: string;
+    free: string;
+    percentage: number;
+  };
+  os: string;
+  kernel: string;
+  uptime: string;
+  hostname: string;
+}
+
 export interface ElectronAPI {
   executeCommand: (cmd: string) => Promise<CommandExecutionResult>;
   checkCommandRisk: (cmd: string) => Promise<{ isHighRisk: boolean; reason?: string }>;
@@ -49,6 +81,17 @@ export interface ElectronAPI {
   searchOnline: (query: string) => Promise<string>;
   sendToMCP: (message: string) => Promise<string>;
   onCommandOutput: (callback: (data: string) => void) => void;
+  addServer: (server: Omit<ServerConfig, 'id'>) => Promise<ServerConfig>;
+  updateServer: (id: string, updates: Partial<ServerConfig>) => Promise<ServerConfig | null>;
+  deleteServer: (id: string) => Promise<boolean>;
+  getServer: (id: string) => Promise<ServerConfig | null>;
+  getAllServers: () => Promise<ServerConfig[]>;
+  connectServer: (id: string) => Promise<{ success: boolean; error?: string }>;
+  disconnectServer: (id: string) => Promise<void>;
+  detectSystemInfo: (id: string) => Promise<ServerSystemInfo | null>;
+  setCurrentServer: (id: string) => Promise<boolean>;
+  getCurrentServer: () => Promise<ServerConfig | null>;
+  executeCommandOnServer: (id: string, cmd: string) => Promise<{ output: string; error?: string }>;
 }
 
 declare global {

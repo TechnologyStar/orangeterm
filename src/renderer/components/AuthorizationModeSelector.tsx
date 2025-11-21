@@ -2,9 +2,11 @@ import React from 'react';
 import { Radio, Card, Space } from 'antd';
 import { SafetyOutlined, WarningOutlined, ThunderboltOutlined } from '@ant-design/icons';
 import { useAuth } from '../contexts/AuthContext';
+import { useLanguage } from '../contexts/LanguageContext';
 
 const AuthorizationModeSelector: React.FC = () => {
   const { mode, setMode } = useAuth();
+  const { t } = useLanguage();
 
   return (
     <Card
@@ -17,8 +19,8 @@ const AuthorizationModeSelector: React.FC = () => {
     >
       <Space direction="vertical" style={{ width: '100%' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <SafetyOutlined style={{ fontSize: '16px', color: '#1890ff' }} />
-          <span style={{ fontWeight: 600, fontSize: '14px' }}>Authorization Mode</span>
+          <SafetyOutlined style={{ fontSize: '16px', color: '#ff8c00' }} />
+          <span style={{ fontWeight: 600, fontSize: '14px' }}>{t.auth.title}</span>
         </div>
         
         <Radio.Group
@@ -29,20 +31,20 @@ const AuthorizationModeSelector: React.FC = () => {
           style={{ width: '100%' }}
         >
           <Radio.Button value="manual_all" style={{ flex: 1, textAlign: 'center' }}>
-            <SafetyOutlined /> Manual All
+            <SafetyOutlined /> {t.auth.manualAll}
           </Radio.Button>
           <Radio.Button value="manual_highrisk" style={{ flex: 1, textAlign: 'center' }}>
-            <WarningOutlined /> High Risk Only
+            <WarningOutlined /> {t.auth.manualHighRisk}
           </Radio.Button>
           <Radio.Button value="auto" style={{ flex: 1, textAlign: 'center' }}>
-            <ThunderboltOutlined /> Automatic
+            <ThunderboltOutlined /> {t.auth.auto}
           </Radio.Button>
         </Radio.Group>
 
         <div style={{ fontSize: '12px', color: '#888', marginTop: '4px' }}>
-          {mode === 'manual_all' && 'All commands require manual authorization'}
-          {mode === 'manual_highrisk' && 'Only high-risk commands require authorization'}
-          {mode === 'auto' && 'Commands execute automatically without authorization'}
+          {mode === 'manual_all' && t.auth.manualAllDesc}
+          {mode === 'manual_highrisk' && t.auth.manualHighRiskDesc}
+          {mode === 'auto' && t.auth.autoDesc}
         </div>
       </Space>
     </Card>

@@ -3,6 +3,7 @@ import { Input, Button, Space, Tooltip, Modal } from 'antd';
 import { SendOutlined, ThunderboltOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 import { useAuth } from '../contexts/AuthContext';
 import { useMessages } from '../contexts/MessageContext';
+import { useLanguage } from '../contexts/LanguageContext';
 
 const { TextArea } = Input;
 
@@ -11,6 +12,7 @@ const CommandInput: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const { mode } = useAuth();
   const { addMessage, updateMessage } = useMessages();
+  const { t } = useLanguage();
 
   const handleSendMessage = async () => {
     if (!input.trim()) return;
@@ -138,20 +140,24 @@ const CommandInput: React.FC = () => {
           value={input}
           onChange={e => setInput(e.target.value)}
           onKeyPress={handleKeyPress}
-          placeholder="Ask me to execute commands or manage your systems..."
+          placeholder={t.chat.inputPlaceholder}
           autoSize={{ minRows: 1, maxRows: 4 }}
           disabled={loading}
           style={{ flex: 1 }}
         />
-        <Tooltip title="Send message">
+        <Tooltip title={t.chat.send}>
           <Button
             type="primary"
             icon={<SendOutlined />}
             onClick={handleSendMessage}
             loading={loading}
-            style={{ height: 'auto' }}
+            style={{
+              height: 'auto',
+              background: 'linear-gradient(135deg, #ff8c00 0%, #ffa500 100%)',
+              border: 'none',
+            }}
           >
-            Send
+            {t.chat.send}
           </Button>
         </Tooltip>
       </Space.Compact>

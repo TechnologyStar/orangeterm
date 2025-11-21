@@ -15,6 +15,28 @@ const electronAPI: ElectronAPI = {
   onCommandOutput: (callback: (data: string) => void) => {
     ipcRenderer.on('command-output', (_event, data) => callback(data));
   },
+
+  addServer: (server) => ipcRenderer.invoke('add-server', server),
+  
+  updateServer: (id, updates) => ipcRenderer.invoke('update-server', id, updates),
+  
+  deleteServer: (id) => ipcRenderer.invoke('delete-server', id),
+  
+  getServer: (id) => ipcRenderer.invoke('get-server', id),
+  
+  getAllServers: () => ipcRenderer.invoke('get-all-servers'),
+  
+  connectServer: (id) => ipcRenderer.invoke('connect-server', id),
+  
+  disconnectServer: (id) => ipcRenderer.invoke('disconnect-server', id),
+  
+  detectSystemInfo: (id) => ipcRenderer.invoke('detect-system-info', id),
+  
+  setCurrentServer: (id) => ipcRenderer.invoke('set-current-server', id),
+  
+  getCurrentServer: () => ipcRenderer.invoke('get-current-server'),
+  
+  executeCommandOnServer: (id, cmd) => ipcRenderer.invoke('execute-command-on-server', id, cmd),
 };
 
 contextBridge.exposeInMainWorld('electronAPI', electronAPI);

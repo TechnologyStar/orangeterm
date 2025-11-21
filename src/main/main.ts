@@ -5,7 +5,8 @@ import { credentialMapper } from '../lib/CredentialMapper';
 import { commandRiskAnalyzer } from '../lib/CommandRiskAnalyzer';
 import { knowledgeBase } from '../lib/KnowledgeBase';
 import { mcpClient } from '../lib/MCPClient';
-import { CommandExecutionResult } from '../types';
+import { serverManager } from '../lib/ServerManager';
+import { CommandExecutionResult, ServerConfig } from '../types';
 
 let mainWindow: BrowserWindow | null = null;
 
@@ -135,4 +136,48 @@ ipcMain.handle('send-to-mcp', async (_event, message: string) => {
     console.error('MCP error:', error);
     return 'Error communicating with MCP server';
   }
+});
+
+ipcMain.handle('add-server', async (_event, server: Omit<ServerConfig, 'id'>) => {
+  return serverManager.addServer(server);
+});
+
+ipcMain.handle('update-server', async (_event, id: string, updates: Partial<ServerConfig>) => {
+  return serverManager.updateServer(id, updates);
+});
+
+ipcMain.handle('delete-server', async (_event, id: string) => {
+  return serverManager.deleteServer(id);
+});
+
+ipcMain.handle('get-server', async (_event, id: string) => {
+  return serverManager.getServer(id);
+});
+
+ipcMain.handle('get-all-servers', async () => {
+  return serverManager.getAllServers();
+});
+
+ipcMain.handle('connect-server', async (_event, id: string) => {
+  return await serverManager.connect(id);
+});
+
+ipcMain.handle('disconnect-server', async (_event, id: string) => {
+  serverManager.disconnect(id);
+});
+
+ipcMain.handle('detect-system-info', async (_event, id: string) => {
+  return await serverManager.detectSystemInfo(id);
+});
+
+ipcMain.handle('set-current-server', async (_event, id: string) => {
+  return serverManager.setCurrentServer(id);
+});
+
+ipcMain.handle('get-current-server', async () => {
+  return serverManager.getCurrentServer();
+});
+
+ipcMain.handle('execute-command-on-server', async (_event, id: string, cmd: string) => {
+  return await serverManager.executeCommand(id, cmd);
 });
