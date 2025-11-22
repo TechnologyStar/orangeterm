@@ -1,17 +1,44 @@
-name: Build
-on: [push]
+name: Build & Release
+
+on:
+  push:
+    tags:
+      - "v*"   # 只有 push v 开头的 tag 才会发 Release，比如 v1.0.0
+
+permissions:
+  contents: write   # 允许创建/更新 Release 和上传 Assets
+
 jobs:
   build:
     runs-on: windows-latest
+
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
-          node-version: '18'
-      - run: npm install
-      - run: npm run build      # 构建项目
-      - run: npm run package    # 打包为exe
-      - uses: actions/upload-artifact@v4
+          node-version: "18"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Package (exe)
+        run: npm run package
+
+      # 可选：还想在 Actions 页面留一份 artifact 就保留
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
         with:
           name: windows-build
           path: release/*.exe
+
+      # ✅ 自动创建 GitHub Release + 上传 exe
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: release/*.exe
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
