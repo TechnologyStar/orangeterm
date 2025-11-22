@@ -34,6 +34,7 @@ export interface AIMessage {
   timestamp: number;
   command?: string;
   executionResult?: CommandExecutionResult;
+  prompt?: string;
 }
 
 export interface MCPServerConfig {
@@ -51,6 +52,8 @@ export interface ServerConfig {
   password: string;
   status?: 'connected' | 'disconnected' | 'error';
   systemInfo?: ServerSystemInfo;
+  latency?: number;
+  lastChecked?: number;
 }
 
 export interface ServerSystemInfo {
@@ -92,6 +95,11 @@ export interface ElectronAPI {
   setCurrentServer: (id: string) => Promise<boolean>;
   getCurrentServer: () => Promise<ServerConfig | null>;
   executeCommandOnServer: (id: string, cmd: string) => Promise<{ output: string; error?: string }>;
+  checkServerLatency: (id: string) => Promise<number>;
+  getServerPrompt: (id: string) => Promise<string>;
+  setWebSearchEnabled: (enabled: boolean) => Promise<void>;
+  getWebSearchEnabled: () => Promise<boolean>;
+  webSearch: (query: string) => Promise<{ success: boolean; results: string[]; error?: string }>;
 }
 
 declare global {

@@ -55,6 +55,8 @@ export interface Translations {
     failed: string;
     sendingToAI: string;
     aiResponse: string;
+    thinking: string;
+    prompt: string;
   };
   status: {
     virtualCredentials: string;
@@ -63,6 +65,18 @@ export interface Translations {
     systemReady: string;
     serverConnected: string;
     noServerSelected: string;
+    latency: string;
+    checking: string;
+    webSearchEnabled: string;
+    webSearchDisabled: string;
+  };
+  mcp: {
+    title: string;
+    bingSearch: string;
+    bingSearchDesc: string;
+    enableWebSearch: string;
+    disableWebSearch: string;
+    searchResult: string;
   };
   common: {
     confirm: string;
@@ -136,6 +150,8 @@ const zh: Translations = {
     failed: '失败',
     sendingToAI: '正在发送到 AI...',
     aiResponse: 'AI 回复',
+    thinking: 'AI 正在思考',
+    prompt: '提示符',
   },
   status: {
     virtualCredentials: '虚拟凭证已激活',
@@ -144,6 +160,18 @@ const zh: Translations = {
     systemReady: '系统就绪',
     serverConnected: '服务器已连接',
     noServerSelected: '未选择服务器',
+    latency: '延迟',
+    checking: '检测中...',
+    webSearchEnabled: '联网搜索已启用',
+    webSearchDisabled: '联网搜索已禁用',
+  },
+  mcp: {
+    title: 'MCP 工具',
+    bingSearch: '必应搜索',
+    bingSearchDesc: '通过必应搜索引擎进行联网搜索',
+    enableWebSearch: '启用联网搜索',
+    disableWebSearch: '禁用联网搜索',
+    searchResult: '搜索结果',
   },
   common: {
     confirm: '确认',
@@ -217,6 +245,8 @@ const en: Translations = {
     failed: 'Failed',
     sendingToAI: 'Sending to AI...',
     aiResponse: 'AI Response',
+    thinking: 'AI Thinking',
+    prompt: 'Prompt',
   },
   status: {
     virtualCredentials: 'Virtual credentials active',
@@ -225,6 +255,18 @@ const en: Translations = {
     systemReady: 'System Ready',
     serverConnected: 'Server connected',
     noServerSelected: 'No server selected',
+    latency: 'Latency',
+    checking: 'Checking...',
+    webSearchEnabled: 'Web search enabled',
+    webSearchDisabled: 'Web search disabled',
+  },
+  mcp: {
+    title: 'MCP Tools',
+    bingSearch: 'Bing Search',
+    bingSearchDesc: 'Search the web via Bing search engine',
+    enableWebSearch: 'Enable Web Search',
+    disableWebSearch: 'Disable Web Search',
+    searchResult: 'Search Result',
   },
   common: {
     confirm: 'Confirm',

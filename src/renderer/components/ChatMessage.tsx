@@ -1,7 +1,8 @@
 import React from 'react';
-import { Card, Tag, Typography } from 'antd';
-import { UserOutlined, RobotOutlined, CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
+import { Card, Tag, Typography, Collapse, Space } from 'antd';
+import { UserOutlined, RobotOutlined, CheckCircleOutlined, CloseCircleOutlined, BulbOutlined, CodeOutlined } from '@ant-design/icons';
 import { AIMessage } from '../../types';
+import { useLanguage } from '../contexts/LanguageContext';
 
 const { Text, Paragraph } = Typography;
 
@@ -10,8 +11,43 @@ interface ChatMessageProps {
 }
 
 const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
+  const { t } = useLanguage();
   const isUser = message.role === 'user';
   const isSystem = message.role === 'system';
+  
+  const parseThinkingContent = (content: string) => {
+    const thinkRegex = /<think>([\s\S]*?)<\/think>|<\\think>([\s\S]*?)<\/\\think>/gi;
+    const parts: Array<{ type: 'text' | 'thinking', content: string }> = [];
+    let lastIndex = 0;
+    let match;
+    
+    while ((match = thinkRegex.exec(content)) !== null) {
+      if (match.index > lastIndex) {
+        parts.push({
+          type: 'text',
+          content: content.substring(lastIndex, match.index),
+        });
+      }
+      
+      parts.push({
+        type: 'thinking',
+        content: match[1] || match[2] || '',
+      });
+      
+      lastIndex = match.index + match[0].length;
+    }
+    
+    if (lastIndex < content.length) {
+      parts.push({
+        type: 'text',
+        content: content.substring(lastIndex),
+      });
+    }
+    
+    return parts.length > 0 ? parts : [{ type: 'text', content }];
+  };
+  
+  const contentParts = parseThinkingContent(message.content);
 
   return (
     <div
@@ -44,16 +80,77 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
           </Text>
         </div>
 
-        <Paragraph
-          style={{
-            margin: 0,
-            color: '#fff',
-            whiteSpace: 'pre-wrap',
-            wordBreak: 'break-word',
-          }}
-        >
-          {message.content}
-        </Paragraph>
+        {contentParts.map((part, index) => (
+          part.type === 'thinking' ? (
+            <Collapse
+              key={index}
+              ghost
+              style={{ marginBottom: '8px' }}
+              items={[{
+                key: '1',
+                label: (
+                  <span style={{ color: '#ffa500' }}>
+                    <BulbOutlined style={{ marginRight: '8px' }} />
+                    {t.chat.thinking}
+                  </span>
+                ),
+                children: (
+                  <Card
+                    size="small"
+                    style={{
+                      backgroundColor: '#1a1a1a',
+                      border: '1px solid #ff8c00',
+                      boxShadow: '0 2px 8px rgba(255, 140, 0, 0.1)',
+                    }}
+                  >
+                    <Paragraph
+                      style={{
+                        margin: 0,
+                        color: '#d4d4d4',
+                        whiteSpace: 'pre-wrap',
+                        wordBreak: 'break-word',
+                        fontStyle: 'italic',
+                      }}
+                    >
+                      {part.content}
+                    </Paragraph>
+                  </Card>
+                ),
+              }]}
+            />
+          ) : (
+            <Paragraph
+              key={index}
+              style={{
+                margin: 0,
+                color: '#fff',
+                whiteSpace: 'pre-wrap',
+                wordBreak: 'break-word',
+                marginBottom: '8px',
+              }}
+            >
+              {part.content}
+            </Paragraph>
+          )
+        ))}
+
+        {message.prompt && (
+          <Card
+            size="small"
+            style={{
+              marginTop: '8px',
+              backgroundColor: '#0a0a0a',
+              border: '1px solid #52c41a',
+            }}
+          >
+            <Space>
+              <CodeOutlined style={{ color: '#52c41a' }} />
+              <Text style={{ color: '#52c41a', fontSize: '12px' }}>
+                {t.chat.prompt}: {message.prompt}
+              </Text>
+            </Space>
+          </Card>
+        )}
 
         {message.command && (
           <Card
