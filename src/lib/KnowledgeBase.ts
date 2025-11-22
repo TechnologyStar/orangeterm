@@ -165,7 +165,21 @@ export class KnowledgeBase {
   }
 
   public addEntry(entry: KnowledgeBaseEntry): void {
-    this.entries.push(entry);
+    const existing = this.entries.findIndex(e => e.command === entry.command);
+    if (existing >= 0) {
+      this.entries[existing] = entry;
+    } else {
+      this.entries.push(entry);
+    }
+  }
+
+  public deleteEntry(command: string): boolean {
+    const index = this.entries.findIndex(e => e.command === command);
+    if (index >= 0) {
+      this.entries.splice(index, 1);
+      return true;
+    }
+    return false;
   }
 
   public getAllEntries(): KnowledgeBaseEntry[] {
