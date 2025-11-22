@@ -93,6 +93,68 @@ export interface Translations {
     error: string;
     success: string;
   };
+  settings: {
+    title: string;
+    api: string;
+    apiConfig: string;
+    provider: string;
+    apiKey: string;
+    baseURL: string;
+    model: string;
+    openai: string;
+    azure: string;
+    custom: string;
+    enterApiKey: string;
+    enterBaseURL: string;
+    enterModel: string;
+    theme: string;
+    darkTheme: string;
+    glassTheme: string;
+  };
+  knowledge: {
+    title: string;
+    addEntry: string;
+    editEntry: string;
+    deleteEntry: string;
+    command: string;
+    description: string;
+    usage: string;
+    examples: string;
+    riskLevel: string;
+    low: string;
+    medium: string;
+    high: string;
+    confirmDelete: string;
+  };
+  mcpServer: {
+    title: string;
+    addServer: string;
+    editServer: string;
+    deleteServer: string;
+    name: string;
+    command: string;
+    args: string;
+    env: string;
+    enabled: string;
+    disabled: string;
+    confirmDelete: string;
+  };
+  wizard: {
+    title: string;
+    welcome: string;
+    welcomeDesc: string;
+    apiSetup: string;
+    apiSetupDesc: string;
+    serverSetup: string;
+    serverSetupDesc: string;
+    complete: string;
+    completeDesc: string;
+    skip: string;
+    next: string;
+    previous: string;
+    finish: string;
+    getStarted: string;
+  };
 }
 
 const zh: Translations = {
@@ -188,6 +250,68 @@ const zh: Translations = {
     error: '错误',
     success: '成功',
   },
+  settings: {
+    title: '设置',
+    api: 'API',
+    apiConfig: 'API 配置',
+    provider: '服务商',
+    apiKey: 'API 密钥',
+    baseURL: '接口地址',
+    model: '模型',
+    openai: 'OpenAI',
+    azure: 'Azure',
+    custom: '自定义',
+    enterApiKey: '请输入 API 密钥',
+    enterBaseURL: '请输入接口地址 (可选)',
+    enterModel: '请输入模型名称 (可选)',
+    theme: '主题',
+    darkTheme: '深色主题',
+    glassTheme: '玻璃主题',
+  },
+  knowledge: {
+    title: '知识库',
+    addEntry: '添加知识条目',
+    editEntry: '编辑知识条目',
+    deleteEntry: '删除知识条目',
+    command: '命令',
+    description: '描述',
+    usage: '用法',
+    examples: '示例',
+    riskLevel: '风险等级',
+    low: '低',
+    medium: '中',
+    high: '高',
+    confirmDelete: '确定要删除此知识条目吗？',
+  },
+  mcpServer: {
+    title: 'MCP 服务器',
+    addServer: '添加 MCP 服务器',
+    editServer: '编辑 MCP 服务器',
+    deleteServer: '删除 MCP 服务器',
+    name: '服务器名称',
+    command: '命令',
+    args: '参数',
+    env: '环境变量',
+    enabled: '已启用',
+    disabled: '已禁用',
+    confirmDelete: '确定要删除此 MCP 服务器吗？',
+  },
+  wizard: {
+    title: '初始化向导',
+    welcome: '欢迎使用 OrangeTerm',
+    welcomeDesc: 'AI 驱动的运维终端，让运维工作更智能、更高效。',
+    apiSetup: 'API 配置',
+    apiSetupDesc: '配置 OpenAI 兼容的 API 以启用 AI 功能（可跳过稍后配置）。',
+    serverSetup: '服务器配置',
+    serverSetupDesc: '添加你的第一台服务器以开始远程管理（可跳过稍后配置）。',
+    complete: '设置完成',
+    completeDesc: '你已完成初始设置，现在可以开始使用 OrangeTerm 了！',
+    skip: '跳过',
+    next: '下一步',
+    previous: '上一步',
+    finish: '完成',
+    getStarted: '开始使用',
+  },
 };
 
 const en: Translations = {
@@ -282,6 +406,68 @@ const en: Translations = {
     loading: 'Loading...',
     error: 'Error',
     success: 'Success',
+  },
+  settings: {
+    title: 'Settings',
+    api: 'API',
+    apiConfig: 'API Configuration',
+    provider: 'Provider',
+    apiKey: 'API Key',
+    baseURL: 'Base URL',
+    model: 'Model',
+    openai: 'OpenAI',
+    azure: 'Azure',
+    custom: 'Custom',
+    enterApiKey: 'Enter API Key',
+    enterBaseURL: 'Enter Base URL (optional)',
+    enterModel: 'Enter Model Name (optional)',
+    theme: 'Theme',
+    darkTheme: 'Dark Theme',
+    glassTheme: 'Glass Theme',
+  },
+  knowledge: {
+    title: 'Knowledge Base',
+    addEntry: 'Add Knowledge Entry',
+    editEntry: 'Edit Knowledge Entry',
+    deleteEntry: 'Delete Knowledge Entry',
+    command: 'Command',
+    description: 'Description',
+    usage: 'Usage',
+    examples: 'Examples',
+    riskLevel: 'Risk Level',
+    low: 'Low',
+    medium: 'Medium',
+    high: 'High',
+    confirmDelete: 'Are you sure you want to delete this knowledge entry?',
+  },
+  mcpServer: {
+    title: 'MCP Servers',
+    addServer: 'Add MCP Server',
+    editServer: 'Edit MCP Server',
+    deleteServer: 'Delete MCP Server',
+    name: 'Server Name',
+    command: 'Command',
+    args: 'Arguments',
+    env: 'Environment Variables',
+    enabled: 'Enabled',
+    disabled: 'Disabled',
+    confirmDelete: 'Are you sure you want to delete this MCP server?',
+  },
+  wizard: {
+    title: 'Setup Wizard',
+    welcome: 'Welcome to OrangeTerm',
+    welcomeDesc: 'AI-powered operations terminal for smarter and more efficient infrastructure management.',
+    apiSetup: 'API Configuration',
+    apiSetupDesc: 'Configure OpenAI-compatible API to enable AI features (can be skipped).',
+    serverSetup: 'Server Configuration',
+    serverSetupDesc: 'Add your first server to start remote management (can be skipped).',
+    complete: 'Setup Complete',
+    completeDesc: 'You have completed the initial setup. You can now start using OrangeTerm!',
+    skip: 'Skip',
+    next: 'Next',
+    previous: 'Previous',
+    finish: 'Finish',
+    getStarted: 'Get Started',
   },
 };
 

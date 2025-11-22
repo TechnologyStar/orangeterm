@@ -38,9 +38,25 @@ export interface AIMessage {
 }
 
 export interface MCPServerConfig {
+  id?: string;
+  name: string;
   command: string;
   args?: string[];
   env?: Record<string, string>;
+  enabled?: boolean;
+}
+
+export interface APIConfig {
+  provider: 'openai' | 'azure' | 'custom';
+  apiKey: string;
+  baseURL?: string;
+  model?: string;
+}
+
+export interface AppSettings {
+  apiConfig?: APIConfig;
+  initialized?: boolean;
+  theme?: 'dark' | 'glass';
 }
 
 export interface ServerConfig {
@@ -81,6 +97,8 @@ export interface ElectronAPI {
   executeCommand: (cmd: string) => Promise<CommandExecutionResult>;
   checkCommandRisk: (cmd: string) => Promise<{ isHighRisk: boolean; reason?: string }>;
   getKnowledgeBase: (keyword?: string) => Promise<KnowledgeBaseEntry[]>;
+  addKnowledgeEntry: (entry: KnowledgeBaseEntry) => Promise<boolean>;
+  deleteKnowledgeEntry: (command: string) => Promise<boolean>;
   searchOnline: (query: string) => Promise<string>;
   sendToMCP: (message: string) => Promise<string>;
   onCommandOutput: (callback: (data: string) => void) => void;
@@ -100,6 +118,12 @@ export interface ElectronAPI {
   setWebSearchEnabled: (enabled: boolean) => Promise<void>;
   getWebSearchEnabled: () => Promise<boolean>;
   webSearch: (query: string) => Promise<{ success: boolean; results: string[]; error?: string }>;
+  saveSettings: (settings: AppSettings) => Promise<boolean>;
+  getSettings: () => Promise<AppSettings>;
+  addMCPServer: (server: MCPServerConfig) => Promise<boolean>;
+  getMCPServers: () => Promise<MCPServerConfig[]>;
+  deleteMCPServer: (id: string) => Promise<boolean>;
+  toggleMCPServer: (id: string, enabled: boolean) => Promise<boolean>;
 }
 
 declare global {

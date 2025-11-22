@@ -8,6 +8,10 @@ const electronAPI: ElectronAPI = {
   
   getKnowledgeBase: (keyword?: string) => ipcRenderer.invoke('get-knowledge-base', keyword),
   
+  addKnowledgeEntry: (entry) => ipcRenderer.invoke('add-knowledge-entry', entry),
+  
+  deleteKnowledgeEntry: (command) => ipcRenderer.invoke('delete-knowledge-entry', command),
+  
   searchOnline: (query: string) => ipcRenderer.invoke('search-online', query),
   
   sendToMCP: (message: string) => ipcRenderer.invoke('send-to-mcp', message),
@@ -47,6 +51,18 @@ const electronAPI: ElectronAPI = {
   getWebSearchEnabled: () => ipcRenderer.invoke('get-web-search-enabled'),
   
   webSearch: (query) => ipcRenderer.invoke('web-search', query),
+  
+  saveSettings: (settings) => ipcRenderer.invoke('save-settings', settings),
+  
+  getSettings: () => ipcRenderer.invoke('get-settings'),
+  
+  addMCPServer: (server) => ipcRenderer.invoke('add-mcp-server', server),
+  
+  getMCPServers: () => ipcRenderer.invoke('get-mcp-servers'),
+  
+  deleteMCPServer: (id) => ipcRenderer.invoke('delete-mcp-server', id),
+  
+  toggleMCPServer: (id, enabled) => ipcRenderer.invoke('toggle-mcp-server', id, enabled),
 };
 
 contextBridge.exposeInMainWorld('electronAPI', electronAPI);

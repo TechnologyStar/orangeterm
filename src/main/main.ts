@@ -6,7 +6,8 @@ import { commandRiskAnalyzer } from '../lib/CommandRiskAnalyzer';
 import { knowledgeBase } from '../lib/KnowledgeBase';
 import { mcpClient } from '../lib/MCPClient';
 import { serverManager } from '../lib/ServerManager';
-import { CommandExecutionResult, ServerConfig } from '../types';
+import { settingsManager } from '../lib/SettingsManager';
+import { CommandExecutionResult, ServerConfig, KnowledgeBaseEntry, AppSettings, MCPServerConfig } from '../types';
 
 let mainWindow: BrowserWindow | null = null;
 
@@ -120,6 +121,15 @@ ipcMain.handle('get-knowledge-base', async (_event, keyword?: string) => {
   return knowledgeBase.query(keyword);
 });
 
+ipcMain.handle('add-knowledge-entry', async (_event, entry: KnowledgeBaseEntry) => {
+  knowledgeBase.addEntry(entry);
+  return true;
+});
+
+ipcMain.handle('delete-knowledge-entry', async (_event, command: string) => {
+  return knowledgeBase.deleteEntry(command);
+});
+
 ipcMain.handle('search-online', async (_event, query: string) => {
   try {
     console.log('Online search for:', query);
@@ -205,4 +215,28 @@ ipcMain.handle('web-search', async (_event, query: string) => {
     results: result.results,
     error: result.error,
   };
+});
+
+ipcMain.handle('save-settings', async (_event, settings: AppSettings) => {
+  return settingsManager.saveSettings(settings);
+});
+
+ipcMain.handle('get-settings', async () => {
+  return settingsManager.getSettings();
+});
+
+ipcMain.handle('add-mcp-server', async (_event, server: MCPServerConfig) => {
+  return settingsManager.addMCPServer(server);
+});
+
+ipcMain.handle('get-mcp-servers', async () => {
+  return settingsManager.getMCPServers();
+});
+
+ipcMain.handle('delete-mcp-server', async (_event, id: string) => {
+  return settingsManager.deleteMCPServer(id);
+});
+
+ipcMain.handle('toggle-mcp-server', async (_event, id: string, enabled: boolean) => {
+  return settingsManager.toggleMCPServer(id, enabled);
 });
