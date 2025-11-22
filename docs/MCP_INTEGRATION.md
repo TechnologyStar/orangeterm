@@ -10,6 +10,38 @@ The Model Context Protocol (MCP) is an open protocol that enables seamless integ
 - Read and write resources
 - Maintain context across interactions
 - Execute operations securely
+- **Search the web** (Built-in Bing Search)
+
+## Built-in MCP Tools
+
+OrangeTerm comes with built-in MCP tools that are ready to use:
+
+### 1. Bing Search Tool
+
+The Bing Search tool allows AI to search the web for latest information:
+
+**Features:**
+- Real-time web search via Bing
+- Extracts top 5 search results
+- User-controllable on/off switch in UI
+- No API key required
+
+**Usage:**
+```typescript
+// Enable web search
+mcpClient.setWebSearchEnabled(true);
+
+// Search the web
+const result = await mcpClient.searchWeb('Docker latest version');
+// Returns: {
+//   success: true,
+//   query: 'Docker latest version',
+//   results: ['Title 1: Description...', 'Title 2: Description...']
+// }
+```
+
+**UI Control:**
+Users can enable/disable web search from the status bar at the bottom of the application.
 
 ## Architecture
 

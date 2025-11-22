@@ -9,6 +9,8 @@ export interface ServerConfig {
   password: string;
   status?: 'connected' | 'disconnected' | 'error';
   systemInfo?: ServerSystemInfo;
+  latency?: number;
+  lastChecked?: number;
 }
 
 export interface ServerSystemInfo {
@@ -232,6 +234,74 @@ export class ServerManager {
             error: stderr || undefined,
           });
         });
+      });
+    });
+  }
+
+  async checkLatency(id: string): Promise<number> {
+    const server = this.servers.get(id);
+    if (!server || server.status !== 'connected') {
+      return -1;
+    }
+
+    const client = this.connections.get(id);
+    if (!client) {
+      return -1;
+    }
+
+    const startTime = Date.now();
+    
+    return new Promise((resolve) => {
+      client.exec('echo "ping"', (err, stream) => {
+        if (err) {
+          resolve(-1);
+          return;
+        }
+
+        stream.on('close', () => {
+          const latency = Date.now() - startTime;
+          this.updateServer(id, { 
+            latency,
+            lastChecked: Date.now(),
+          });
+          resolve(latency);
+        });
+
+        stream.on('data', () => {});
+      });
+
+      setTimeout(() => {
+        resolve(-1);
+      }, 5000);
+    });
+  }
+
+  async getPrompt(id: string): Promise<string> {
+    const client = this.connections.get(id);
+    if (!client) {
+      return '';
+    }
+
+    return new Promise((resolve) => {
+      client.exec('echo $PS1 2>/dev/null || echo "$ "', (err, stream) => {
+        if (err) {
+          resolve('$ ');
+          return;
+        }
+
+        let output = '';
+        stream.on('data', (data: Buffer) => {
+          output += data.toString();
+        });
+
+        stream.on('close', () => {
+          const prompt = output.trim() || '$ ';
+          resolve(prompt);
+        });
+
+        setTimeout(() => {
+          resolve('$ ');
+        }, 2000);
       });
     });
   }

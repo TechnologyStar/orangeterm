@@ -181,3 +181,28 @@ ipcMain.handle('get-current-server', async () => {
 ipcMain.handle('execute-command-on-server', async (_event, id: string, cmd: string) => {
   return await serverManager.executeCommand(id, cmd);
 });
+
+ipcMain.handle('check-server-latency', async (_event, id: string) => {
+  return await serverManager.checkLatency(id);
+});
+
+ipcMain.handle('get-server-prompt', async (_event, id: string) => {
+  return await serverManager.getPrompt(id);
+});
+
+ipcMain.handle('set-web-search-enabled', async (_event, enabled: boolean) => {
+  mcpClient.setWebSearchEnabled(enabled);
+});
+
+ipcMain.handle('get-web-search-enabled', async () => {
+  return mcpClient.isWebSearchEnabled();
+});
+
+ipcMain.handle('web-search', async (_event, query: string) => {
+  const result = await mcpClient.searchWeb(query);
+  return {
+    success: result.success,
+    results: result.results,
+    error: result.error,
+  };
+});

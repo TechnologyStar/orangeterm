@@ -37,6 +37,16 @@ const electronAPI: ElectronAPI = {
   getCurrentServer: () => ipcRenderer.invoke('get-current-server'),
   
   executeCommandOnServer: (id, cmd) => ipcRenderer.invoke('execute-command-on-server', id, cmd),
+  
+  checkServerLatency: (id) => ipcRenderer.invoke('check-server-latency', id),
+  
+  getServerPrompt: (id) => ipcRenderer.invoke('get-server-prompt', id),
+  
+  setWebSearchEnabled: (enabled) => ipcRenderer.invoke('set-web-search-enabled', enabled),
+  
+  getWebSearchEnabled: () => ipcRenderer.invoke('get-web-search-enabled'),
+  
+  webSearch: (query) => ipcRenderer.invoke('web-search', query),
 };
 
 contextBridge.exposeInMainWorld('electronAPI', electronAPI);
